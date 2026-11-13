@@ -1,6 +1,6 @@
 {
   "name": "binforge",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "A compact, dependency-free binary serializer for TypeScript, with variant lengths, string interning, bit packing, and explicit little- and big-endian primitives.",
   "repository": {
     "type": "git",
