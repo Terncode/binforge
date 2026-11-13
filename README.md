@@ -188,6 +188,35 @@ const bytes = writer.buffer();
 
 `writeNullable(value, write)` receives the dynamic writer, so nested writes stay in order.
 
+### `ByteSink(initialCapacity?)`
+
+A growable byte buffer for unsigned LEB128 varints and zigzag-encoded signed integers.
+`initialCapacity` defaults to `65536`, and the backing buffer doubles as needed.
+
+| Member | Description |
+| --- | --- |
+| `length` | number of written bytes |
+| `writeVarint(value)` | appends an unsigned LEB128 varint |
+| `writeZigzag(value)` | appends a signed integer as a zigzag varint |
+| `view()` | `Uint8Array` view over the written region (no copy) |
+| `reset()` | rewinds the write cursor to `0` |
+
+```ts
+const sink = new ByteSink();
+sink.writeZigzag(-300);
+new VarintReader(sink.view()).readZigzag(); // -300
+```
+
+### `VarintReader(bytes, start = 0)`
+
+Reads values produced by `ByteSink`, starting at the optional byte offset.
+
+| Member | Description |
+| --- | --- |
+| `offset` | current read position |
+| `readVarint()` | reads an unsigned LEB128 varint |
+| `readZigzag()` | reads a zigzag-encoded signed integer |
+
 ### `BinaryOffset`
 
 A utility base class (also inherited by the writers and the reader) exposing the size
@@ -240,11 +269,12 @@ The tag byte used by `any` / `readAny`:
 ### Exports
 
 Value exports: `BinaryWriter`, `BinaryReader`, `BinarySizeWriter`, `BinaryDynamicWriter`,
-`BinaryOffset`, `BinaryTag`, `BINARY_EMPTY`.
+`ByteSink`, `VarintReader`, `BinaryOffset`, `BinaryTag`, `BINARY_EMPTY`.
 
 Type exports: `IBinary`, `IBinaryWriter`, `IBinaryReader`, `IBinarySizeWriter`,
 `IBinaryDynamicWriter`, `IBinaryOffset`, `IBinaryWriteMethods`,
 `IBinaryReaderMethods`, `IBinarySizeWriterMethods`, `IBinaryDynamicWriterMethods`,
+`IByteSink`, `IByteSinkMethods`, `IVarintReader`, `IVarintReaderMethods`,
 `IBitWriter`, `IBitReader`, `IBitSizeCounter`.
 
 Subpath export: `binforge/constants` exposes the raw size/depth constants

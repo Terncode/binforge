@@ -1,3 +1,4 @@
+export { ByteSink, VarintReader } from "./byte-sync";
 export { BinaryDynamicWriter } from "./writer-dynamic";
 export { BinaryOffset } from "./offset";
 export { BinaryReader } from "./reader";
@@ -9,6 +10,8 @@ export { BINARY_EMPTY } from "./utils";
 export type {
     IBinary,
     IBinaryDynamicWriter,
+    IByteSink,
+    IByteSinkMethods,
     IBinaryDynamicWriterMethods,
     IBinaryOffset,
     IBinaryReader,
@@ -20,4 +23,6 @@ export type {
     IBitReader,
     IBitSizeCounter,
     IBitWriter,
+    IVarintReader,
+    IVarintReaderMethods,
 } from "./types";

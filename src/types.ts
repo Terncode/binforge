@@ -58,6 +58,20 @@ export interface IBitReader {
 
 export type IBitSizeCounter = IBitWriter;
 
+export interface IByteSinkMethods {
+    readonly length: number;
+    reset(): void;
+    view(): Uint8Array;
+    writeVarint(value: number): void;
+    writeZigzag(value: number): void;
+}
+
+export interface IVarintReaderMethods {
+    readonly offset: number;
+    readVarint(): number;
+    readZigzag(): number;
+}
+
 export interface IBinaryWriteMethods extends IBinaryOffset {
     bool(value: boolean): this;
     nullLen(): this;
@@ -240,6 +254,14 @@ export interface IBinaryDynamicWriter extends IBinaryOffset {
     new (): IBinaryDynamicWriterMethods;
 }
 
+export interface IByteSink {
+    new (initialCapacity?: number): IByteSinkMethods;
+}
+
+export interface IVarintReader {
+    new (bytes: Uint8Array, start?: number): IVarintReaderMethods;
+}
+
 export interface IBinary {
     BinaryWriter: IBinaryWriter;
     BinaryDynamicWriter: IBinaryDynamicWriter;
@@ -249,4 +271,6 @@ export interface IBinary {
     BinaryTag: typeof BinaryTag;
     BINARY_EMPTY: Uint8Array;
     BINARY_FLOAT: Float32Array;
+    ByteSink: IByteSink;
+    VarintReader: IVarintReader;
 }

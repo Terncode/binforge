@@ -8,6 +8,15 @@ describe("public api", () => {
         expect(typeof api.BinaryDynamicWriter).toBe("function");
         expect(typeof api.BinarySizeWriter).toBe("function");
         expect(typeof api.BinaryOffset).toBe("function");
+        expect(typeof api.ByteSink).toBe("function");
+        expect(typeof api.VarintReader).toBe("function");
+    });
+
+    it("lets the byte sync classes round-trip a zigzag varint", () => {
+        const sink = new api.ByteSink();
+
+        sink.writeZigzag(-300);
+        expect(new api.VarintReader(sink.view()).readZigzag()).toBe(-300);
     });
 
     it("exports the tag enum and the shared empty buffer", () => {
