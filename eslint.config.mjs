@@ -7,11 +7,7 @@ import unicorn from "eslint-plugin-unicorn";
 
 export default [
     {
-        ignores: [
-            "dist/",
-            "node_modules/",
-            "data/",
-        ],
+        ignores: ["dist/", "node_modules/", "data/"],
     },
     {
         languageOptions: {

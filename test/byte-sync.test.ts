@@ -140,7 +140,9 @@ describe("VarintReader", () => {
     });
 
     it("advances through consecutive varints", () => {
-        const reader = new VarintReader(new Uint8Array([0x00, 0xac, 0x02, 0xff, 0xff, 0xff, 0xff, 0x0f]));
+        const reader = new VarintReader(
+            new Uint8Array([0x00, 0xac, 0x02, 0xff, 0xff, 0xff, 0xff, 0x0f]),
+        );
 
         expect(reader.readVarint()).toBe(0);
         expect(reader.offset).toBe(1);

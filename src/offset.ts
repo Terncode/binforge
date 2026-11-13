@@ -234,7 +234,11 @@ export class BinaryOffset implements IBinaryOffset {
         return BinaryOffset.UINT8 + BinaryOffset.string(value);
     }
 
-    static getAnyLength(value: unknown, strings: Map<string, number> = new Map(), depth = 0): number {
+    static getAnyLength(
+        value: unknown,
+        strings: Map<string, number> = new Map(),
+        depth = 0,
+    ): number {
         if (depth > MAX_ANY_DEPTH) {
             throw new Error("Maximum nesting depth exceeded");
         }
@@ -293,7 +297,9 @@ export class BinaryOffset implements IBinaryOffset {
     }
 
     static getShortLength(length: number) {
-        return length < 31 ? BinaryOffset.UINT8 : BinaryOffset.UINT8 + BinaryOffset.getLength(length);
+        return length < 31
+            ? BinaryOffset.UINT8
+            : BinaryOffset.UINT8 + BinaryOffset.getLength(length);
     }
 
     getShortLength(length: number) {

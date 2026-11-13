@@ -100,14 +100,18 @@ describe("BinaryDynamicWriter", () => {
         const dynamic = new BinaryDynamicWriter();
 
         dynamic.uint16(0x1234).int32(-2).float32(1.5);
-        expect(toArray(dynamic.buffer())).toEqual([0x34, 0x12, 0xfe, 0xff, 0xff, 0xff, 0x00, 0x00, 0xc0, 0x3f]);
+        expect(toArray(dynamic.buffer())).toEqual([
+            0x34, 0x12, 0xfe, 0xff, 0xff, 0xff, 0x00, 0x00, 0xc0, 0x3f,
+        ]);
     });
 
     it("writes the BE variants as big-endian", () => {
         const dynamic = new BinaryDynamicWriter();
 
         dynamic.uint16BE(0x1234).int32BE(-2).float32BE(1.5);
-        expect(toArray(dynamic.buffer())).toEqual([0x12, 0x34, 0xff, 0xff, 0xff, 0xfe, 0x3f, 0xc0, 0x00, 0x00]);
+        expect(toArray(dynamic.buffer())).toEqual([
+            0x12, 0x34, 0xff, 0xff, 0xff, 0xfe, 0x3f, 0xc0, 0x00, 0x00,
+        ]);
     });
 
     it("writes nullable values with a marker byte", () => {

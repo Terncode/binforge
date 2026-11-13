@@ -441,7 +441,11 @@ export class BinaryWriter extends BinaryOffset implements IBinaryWriteMethods {
         return this;
     }
 
-    private writeObjectBody(value: Record<string, unknown>, strings: Map<string, number>, depth: number) {
+    private writeObjectBody(
+        value: Record<string, unknown>,
+        strings: Map<string, number>,
+        depth: number,
+    ) {
         if (BinaryOffset.isUnsupportedObject(value)) {
             throw new Error("Unsupported object type");
         }

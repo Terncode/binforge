@@ -108,12 +108,8 @@ describe("BinarySizeWriter", () => {
     });
 
     it("sizes nullable values", () => {
-        expect(
-            new BinarySizeWriter().writeNullable(null, () => 10).byteLength,
-        ).toBe(1);
-        expect(
-            new BinarySizeWriter().writeNullable(5, () => 3).byteLength,
-        ).toBe(4);
+        expect(new BinarySizeWriter().writeNullable(null, () => 10).byteLength).toBe(1);
+        expect(new BinarySizeWriter().writeNullable(5, () => 3).byteLength).toBe(4);
     });
 
     it.each([
@@ -146,7 +142,16 @@ describe("BinarySizeWriter", () => {
     });
 
     it("sizes any values the way the writer lays them down", () => {
-        const values: unknown[] = [1, "a", ["a", "a"], { a: [1, 2, { b: "a" }] }, new Uint8Array(3), null, 0.1, -0];
+        const values: unknown[] = [
+            1,
+            "a",
+            ["a", "a"],
+            { a: [1, 2, { b: "a" }] },
+            new Uint8Array(3),
+            null,
+            0.1,
+            -0,
+        ];
 
         for (const value of values) {
             const counter = new BinarySizeWriter().any(value);

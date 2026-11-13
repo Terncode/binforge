@@ -190,9 +190,7 @@ describe("BinaryReader bool and nullable", () => {
     });
 
     it("returns falsy payloads as they are", () => {
-        expect(
-            reader(1, 0).readNullable((r) => r.uint8()),
-        ).toBe(0);
+        expect(reader(1, 0).readNullable((r) => r.uint8())).toBe(0);
     });
 
     it("rejects markers other than zero and one", () => {
@@ -262,7 +260,16 @@ describe("BinaryReader len", () => {
 
 describe("BinaryReader str", () => {
     it("reads strings of every script", () => {
-        const samples = ["", "abc", "héllo", "€", "😀", "日本語", "mixed é€😀 text", "x".repeat(300)];
+        const samples = [
+            "",
+            "abc",
+            "héllo",
+            "€",
+            "😀",
+            "日本語",
+            "mixed é€😀 text",
+            "x".repeat(300),
+        ];
 
         for (const sample of samples) {
             const writer = new BinaryWriter(1024);
@@ -457,13 +464,36 @@ describe("BinaryReader bytes", () => {
 
 describe("BinaryReader flags", () => {
     it("expands a byte into eight booleans, least significant first", () => {
-        expect(reader(0xa5).read8Bools()).toEqual([true, false, true, false, false, true, false, true]);
-        expect(reader(0x00).read8Bools()).toEqual([false, false, false, false, false, false, false, false]);
+        expect(reader(0xa5).read8Bools()).toEqual([
+            true,
+            false,
+            true,
+            false,
+            false,
+            true,
+            false,
+            true,
+        ]);
+        expect(reader(0x00).read8Bools()).toEqual([
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+        ]);
         expect(reader(0xff).read8Bools()).toEqual([true, true, true, true, true, true, true, true]);
     });
 
     it("reads packed bits of mixed widths", () => {
-        const result = reader(0x5d).readBits((bits) => [bits.bit(), bits.bit(), bits.uint2(), bits.uint4()]);
+        const result = reader(0x5d).readBits((bits) => [
+            bits.bit(),
+            bits.bit(),
+            bits.uint2(),
+            bits.uint4(),
+        ]);
 
         expect(result).toEqual([true, false, 3, 5]);
     });
@@ -475,7 +505,16 @@ describe("BinaryReader flags", () => {
             bits.int2(-1).int2(-2).int2(1).int2(0).int4(-8).int4(7).int4(-1).int4(0);
         });
 
-        const result = new BinaryReader(writer.buffer()).readBits((bits) => [bits.int2(), bits.int2(), bits.int2(), bits.int2(), bits.int4(), bits.int4(), bits.int4(), bits.int4()]);
+        const result = new BinaryReader(writer.buffer()).readBits((bits) => [
+            bits.int2(),
+            bits.int2(),
+            bits.int2(),
+            bits.int2(),
+            bits.int4(),
+            bits.int4(),
+            bits.int4(),
+            bits.int4(),
+        ]);
 
         expect(result).toEqual([-1, -2, 1, 0, -8, 7, -1, 0]);
     });
@@ -502,9 +541,7 @@ describe("BinaryReader flags", () => {
     });
 
     it("returns whatever the callback returns", () => {
-        expect(
-            reader(0x01).readBits((bits) => bits.bit() ? "set" : "clear"),
-        ).toBe("set");
+        expect(reader(0x01).readBits((bits) => (bits.bit() ? "set" : "clear"))).toBe("set");
     });
 });
 
@@ -676,7 +713,11 @@ describe("BinaryReader readObject", () => {
         const writer = new BinaryWriter(64);
 
         writer.writeObject({ a: 1, b: "x", c: [true, null] });
-        expect(new BinaryReader(writer.buffer()).readObject()).toEqual({ a: 1, b: "x", c: [true, null] });
+        expect(new BinaryReader(writer.buffer()).readObject()).toEqual({
+            a: 1,
+            b: "x",
+            c: [true, null],
+        });
     });
 
     it("insists on an object tag", () => {
